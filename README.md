@@ -18,7 +18,7 @@ A modern, motion-led redesign of the iGroup Solutions website — a software dev
   <img alt="React Bits" src="https://img.shields.io/badge/React%20Bits-components-F79420?style=flat-square" />
 </p>
 
-<a href="https://www.igroupsolutions.lk">
+<a href="https://i-group-solutions-redesign-gw9u.vercel.app/">
   <img alt="Visit Live Site" src="https://img.shields.io/badge/Visit%20Live%20Site-F79420?style=for-the-badge&logo=googlechrome&logoColor=white" />
 </a>
 

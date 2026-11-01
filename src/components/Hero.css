@@ -1,0 +1,253 @@
+.hero {
+  --title-size: clamp(44px, 12.5vw, 196px);
+  --ring-size: max(98vw, 600px);
+
+  position: relative;
+  min-height: max(100svh, 720px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px var(--gutter) 110px;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: center;
+}
+
+.hero::before {
+  /* darkens the centre so the ring reads as a rim of light */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 50% at 50% 30%, rgba(5, 5, 5, 0.6), transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero::after {
+  /* melt into the next section */
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 30%;
+  background: linear-gradient(to bottom, transparent, var(--bg));
+  pointer-events: none;
+  z-index: -1;
+}
+
+.hero__grid {
+  z-index: -2;
+}
+
+/* ---------- wordmark + ring ---------- */
+.hero__stage {
+  position: relative;
+  font-size: var(--title-size);
+  line-height: 1;
+}
+
+.hero__ring-scroll {
+  position: absolute;
+  left: 50%;
+  bottom: -0.55em;
+  width: var(--ring-size);
+  aspect-ratio: 1;
+  margin-left: calc(var(--ring-size) / -2);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero__ring,
+.hero__ring-breath {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 88%;
+  will-change: transform, opacity;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+/* deep ember glow — kept dark so the white type carries the contrast */
+.ring--glow {
+  border: calc(var(--ring-size) * 0.03) solid #b9470a;
+  filter: blur(calc(var(--ring-size) * 0.03));
+  opacity: 0.85;
+  box-shadow:
+    0 0 calc(var(--ring-size) * 0.07) calc(var(--ring-size) * 0.015) rgba(185, 71, 10, 0.45),
+    inset 0 0 calc(var(--ring-size) * 0.09) calc(var(--ring-size) * 0.03) rgba(140, 42, 10, 0.5);
+}
+
+.ring--core {
+  border: calc(var(--ring-size) * 0.008) solid #f08a2c;
+  filter: blur(calc(var(--ring-size) * 0.009));
+  opacity: 0.75;
+  box-shadow: inset 0 0 calc(var(--ring-size) * 0.04) rgba(247, 148, 32, 0.35);
+  mask-image: linear-gradient(to bottom, #000 40%, rgba(0, 0, 0, 0.45) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* a soft highlight that glides around the ring — the layer itself rotates (GPU transform),
+   so the blurred ring is rasterised once instead of repainted every frame */
+.ring--sweep {
+  border: calc(var(--ring-size) * 0.007) solid #ffd7a1;
+  filter: blur(calc(var(--ring-size) * 0.006));
+  mask-image: conic-gradient(transparent 0deg, transparent 290deg, #000 340deg, transparent 360deg);
+  -webkit-mask-image: conic-gradient(transparent 0deg, transparent 290deg, #000 340deg, transparent 360deg);
+  animation: ring-spin 14s linear infinite;
+  will-change: transform;
+  opacity: 0.8;
+}
+
+@keyframes ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero__title {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1em;
+  line-height: 1.05;
+  letter-spacing: 0.14em;
+  padding-left: 0.14em; /* balances the trailing tracking */
+  white-space: nowrap;
+  color: #fff;
+  text-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+/* metallic wordmark — sized to the same box the plain title would take */
+.hero__title--hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.hero__metal {
+  position: relative;
+  width: min(94vw, 1200px);
+  height: 1.15em;
+  margin: 0 auto;
+}
+
+.hero__solutions {
+  margin: 0.28em 0 0;
+  padding-left: 0.62em;
+  font-family: var(--font-display);
+  font-size: max(11px, 0.11em);
+  font-weight: 500;
+  letter-spacing: 0.62em;
+  color: var(--orange);
+}
+
+/* ---------- copy ---------- */
+.hero__content {
+  margin-top: clamp(48px, 9vh, 96px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 640px;
+}
+
+.hero__headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, 2.6vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.hero__tagline {
+  margin: 12px 0 0;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.hero__sub {
+  margin: 8px 0 0;
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.hero__since {
+  margin: 18px 0 0;
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.hero__scroll span {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, transparent, var(--orange));
+  animation: scroll-cue 2s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    --ring-size: 150vw;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+  }
+
+  .hero__actions,
+  .hero__actions > div {
+    width: 100%;
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+}

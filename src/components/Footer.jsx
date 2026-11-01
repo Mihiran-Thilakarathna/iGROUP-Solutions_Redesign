@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
-import { gsap, useGSAP, scrollToSection } from '../gsap.js';
+import { gsap, useGSAP, scrollToSection, revealEach } from '../gsap.js';
 import { NAV, CONTACT, SERVICES, CAREERS } from '../data/content.js';
 import SocialDock from './SocialDock.jsx';
 import Icon from './Icons.jsx';
@@ -53,14 +53,7 @@ export default function Footer() {
         ease: 'power4.out',
         scrollTrigger: { trigger: '.footer__cta', start: 'top 80%' }
       });
-      gsap.from('.footer__col', {
-        y: 30,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.08,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '.footer__grid', start: 'top 88%' }
-      });
+      revealEach('.footer__col', { y: 30, opacity: 0 }, { stagger: 0.08 });
     },
     { scope: root }
   );

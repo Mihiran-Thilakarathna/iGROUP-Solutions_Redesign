@@ -729,6 +729,11 @@ const createEngine = (root, track, config, setLayout) => {
 
   const onUp = e => endDrag(e, false);
   const onCancel = e => endDrag(e, true);
+  // touch gives the logo under the finger an implicit capture; taking it over fires a
+  // lostpointercapture on that child which bubbles up here — only our own loss ends the drag
+  const onLostCapture = e => {
+    if (e.target === root) endDrag(e, true);
+  };
 
   const onClick = e => {
     if (performance.now() < st.suppressUntil) {
@@ -794,7 +799,7 @@ const createEngine = (root, track, config, setLayout) => {
   root.addEventListener('pointermove', onMove);
   root.addEventListener('pointerup', onUp);
   root.addEventListener('pointercancel', onCancel);
-  root.addEventListener('lostpointercapture', onCancel);
+  root.addEventListener('lostpointercapture', onLostCapture);
   root.addEventListener('click', onClick, true);
   root.addEventListener('dragstart', onDragStart);
   root.addEventListener('focusin', onFocusIn);
@@ -860,7 +865,7 @@ const createEngine = (root, track, config, setLayout) => {
     root.removeEventListener('pointermove', onMove);
     root.removeEventListener('pointerup', onUp);
     root.removeEventListener('pointercancel', onCancel);
-    root.removeEventListener('lostpointercapture', onCancel);
+    root.removeEventListener('lostpointercapture', onLostCapture);
     root.removeEventListener('click', onClick, true);
     root.removeEventListener('dragstart', onDragStart);
     root.removeEventListener('focusin', onFocusIn);

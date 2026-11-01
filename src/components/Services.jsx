@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { gsap, useGSAP, scrollToSection } from '../gsap.js';
+import { gsap, ScrollTrigger, useGSAP, scrollToSection, isTouch } from '../gsap.js';
 import { SERVICES } from '../data/content.js';
 import SectionHeading from './SectionHeading.jsx';
 import Icon from './Icons.jsx';
@@ -31,6 +31,30 @@ export default function Services() {
       const rows = gsap.utils.toArray('.svc-row');
       // hand the resting offset to GSAP as yPercent, otherwise it keeps the CSS value as a pixel y
       gsap.set('.svc-row__fill', { y: 0, yPercent: 101 });
+
+      // no hover on touch screens: the row crossing the middle of the screen lights up instead
+      if (isTouch()) {
+        rows.forEach(row => {
+          const fill = row.querySelector('.svc-row__fill');
+          ScrollTrigger.create({
+            trigger: row,
+            start: 'top center',
+            end: 'bottom center',
+            onToggle: self => {
+              row.classList.toggle('is-lit', self.isActive);
+              // fill follows the scroll: in from below going down, out through the top, and back again
+              const away = self.direction > 0 ? -101 : 101;
+              gsap.fromTo(
+                fill,
+                { yPercent: self.isActive ? -away : gsap.getProperty(fill, 'yPercent') },
+                { yPercent: self.isActive ? 0 : away, duration: 0.6, ease: 'power3.out', overwrite: true }
+              );
+            }
+          });
+        });
+        return undefined;
+      }
+
       const handlers = rows.map(row => {
         const fill = row.querySelector('.svc-row__fill');
         let on = false;

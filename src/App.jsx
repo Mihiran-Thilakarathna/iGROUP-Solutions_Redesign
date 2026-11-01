@@ -1,4 +1,4 @@
-import Preloader from './components/Preloader.jsx';
+import Cursor from './components/Cursor.jsx';
 import PageGlows from './components/PageGlows.jsx';
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
@@ -14,7 +14,7 @@ import './components/Sections.css';
 export default function App() {
   return (
     <>
-      <Preloader />
+      <Cursor />
       <Navbar />
       <main>
         <PageGlows />

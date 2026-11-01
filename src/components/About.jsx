@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { gsap, useGSAP, scrollToSection } from '../gsap.js';
+import { gsap, useGSAP, scrollToSection, revealEach } from '../gsap.js';
 import { ABOUT } from '../data/content.js';
 import ScrollReveal from './reactbits/ScrollReveal.jsx';
 import StarBorder from './reactbits/StarBorder.jsx';
@@ -15,14 +15,7 @@ export default function About() {
         { xPercent: 10 },
         { xPercent: -10, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true } }
       );
-      gsap.from('.about__aside > *', {
-        y: 40,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '.about__aside', start: 'top 80%' }
-      });
+      revealEach('.about__aside > *', { y: 40, opacity: 0 }, { stagger: 0.12 });
     },
     { scope: root }
   );

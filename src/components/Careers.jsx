@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { gsap, useGSAP } from '../gsap.js';
+import { gsap, ScrollTrigger, useGSAP, isTouch, revealEach } from '../gsap.js';
 import { CAREERS } from '../data/content.js';
 import ScrollFloat from './reactbits/ScrollFloat.jsx';
 import Icon from './Icons.jsx';
@@ -9,22 +9,20 @@ export default function Careers() {
 
   useGSAP(
     () => {
-      gsap.from('.role', {
-        y: 50,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '.careers__roles', start: 'top 82%' }
-      });
-      gsap.from('.careers__intro > *', {
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '.careers__intro', start: 'top 82%' }
-      });
+      revealEach('.careers__intro > *, .careers__looking', { y: 30, opacity: 0 }, { duration: 0.8 });
+      // each role rises as it reaches the screen — on a phone the list is taller than the viewport
+      revealEach('.role', { y: 50, opacity: 0 });
+      // touch screens: the role in the middle of the screen takes the hover look
+      if (isTouch()) {
+        gsap.utils.toArray('.role').forEach(role =>
+          ScrollTrigger.create({
+            trigger: role,
+            start: 'top center',
+            end: 'bottom center',
+            onToggle: self => role.classList.toggle('is-lit', self.isActive)
+          })
+        );
+      }
     },
     { scope: root }
   );

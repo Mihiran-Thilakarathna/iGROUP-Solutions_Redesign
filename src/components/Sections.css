@@ -166,31 +166,60 @@
   transition: color 0.3s, border-color 0.3s, background 0.3s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.svc-row:hover .svc-row__num,
-.svc-row:hover .svc-row__title,
+.svc-row.is-lit .svc-row__num,
+.svc-row.is-lit .svc-row__title,
 .svc-row:focus-visible .svc-row__title {
   color: #0a0a0a;
   text-shadow: none;
 }
 
-.svc-row:hover .svc-row__title {
+.svc-row.is-lit .svc-row__title {
   transform: translateX(10px);
 }
 
-.svc-row:hover .svc-row__text {
+.svc-row.is-lit .svc-row__text {
   color: rgba(10, 10, 10, 0.75);
 }
 
-.svc-row:hover .svc-row__tags > span {
+.svc-row.is-lit .svc-row__tags > span {
   color: #0a0a0a;
   border-color: rgba(10, 10, 10, 0.35);
 }
 
-.svc-row:hover .svc-row__go {
+.svc-row.is-lit .svc-row__go {
   background: #0a0a0a;
   border-color: #0a0a0a;
   color: var(--orange);
   transform: translate(3px, -3px);
+}
+
+/* real hover only where there is a mouse, so a tap never leaves a row stuck "on" */
+@media (hover: hover) {
+  .svc-row:hover .svc-row__num,
+  .svc-row:hover .svc-row__title {
+    color: #0a0a0a;
+    text-shadow: none;
+  }
+
+  .svc-row:hover .svc-row__title {
+    transform: translateX(10px);
+  }
+
+  .svc-row:hover .svc-row__text {
+    color: rgba(10, 10, 10, 0.75);
+  }
+
+  .svc-row:hover .svc-row__tags > span {
+    color: #0a0a0a;
+    border-color: rgba(10, 10, 10, 0.35);
+  }
+
+  .svc-row:hover .svc-row__go {
+    background: #0a0a0a;
+    border-color: #0a0a0a;
+    color: var(--orange);
+    transform: translate(3px, -3px);
+  }
 }
 
 /* ---------- about ---------- */
@@ -253,6 +282,11 @@
 
 .clients__loop {
   padding: 8px 0;
+}
+
+/* swiping the logos on a phone shouldn't pop up the link preview / callout menu */
+.clients__loop .logoloop {
+  -webkit-touch-callout: none;
 }
 
 .client-logo {
@@ -430,6 +464,7 @@
   transition: padding 0.4s ease;
 }
 
+.role.is-lit,
 .role:hover {
   padding-left: 12px;
 }
@@ -448,6 +483,7 @@
   transition: color 0.3s ease;
 }
 
+.role.is-lit .role__area,
 .role:hover .role__area {
   color: var(--orange);
 }
@@ -472,6 +508,7 @@
   height: auto;
 }
 
+.role.is-lit .role__go,
 .role:hover .role__go {
   color: var(--orange);
   transform: translate(4px, -4px);

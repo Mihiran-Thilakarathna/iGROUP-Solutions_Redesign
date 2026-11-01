@@ -156,7 +156,8 @@ export default function CountUp({
   const startedRef = useRef(false);
   const runningRef = useRef(false);
   const [play, setPlay] = useState(null);
-  const isInView = useInView(ref, { once: true, margin: '0px' });
+  // plain counts replay on every pass through the viewport; rolls only run once
+  const isInView = useInView(ref, { once: mode !== 'count', margin: '0px' });
   const active = trigger === 'load' || isInView;
   const compact = format === 'compact';
   const places = decimals ?? Math.max(getDecimalPlaces(from), getDecimalPlaces(to));
@@ -202,7 +203,15 @@ export default function CountUp({
   }, [mode, startValue, formatValue]);
 
   useEffect(() => {
-    if (!active || !startWhen) return;
+    if (!startWhen) return;
+    if (!active) {
+      // scrolled away: rewind so the count runs again next time it comes into view
+      if (!startedRef.current || mode !== 'count') return;
+      startedRef.current = false;
+      valueRef.current = startValue;
+      setPlay(null);
+      return;
+    }
     startedRef.current = true;
     setPlay(previous => ({
       id: (previous?.id || 0) + 1,
@@ -211,7 +220,7 @@ export default function CountUp({
       spin: false,
       wait: true
     }));
-  }, [active, startWhen, endValue]);
+  }, [active, startWhen, endValue, mode, startValue]);
 
   useEffect(() => {
     if (!play) return undefined;

@@ -35,7 +35,7 @@ export default function Clients() {
     () => {
       // words brighten as the statement scrolls through, the pills pop in on cue
       gsap.fromTo(
-        '.statement__word',
+        '.statement__word:not(.statement__pill)',
         { opacity: 0.14 },
         {
           opacity: 1,
@@ -44,14 +44,20 @@ export default function Clients() {
           scrollTrigger: { trigger: '.statement', start: 'top 85%', end: 'bottom 55%', scrub: true }
         }
       );
-      gsap.from('.statement__pill', {
-        scale: 0.6,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.18,
-        ease: 'back.out(1.8)',
-        scrollTrigger: { trigger: '.statement', start: 'top 75%' }
-      });
+      // pills pop in as each one reaches the screen — the statement wraps to many lines on a phone
+      gsap.utils.toArray('.statement__pill').forEach(pill =>
+        gsap.fromTo(
+          pill,
+          { scale: 0.6, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            ease: 'back.out(1.8)',
+            scrollTrigger: { trigger: pill, start: 'top 82%' }
+          }
+        )
+      );
     },
     { scope: root }
   );

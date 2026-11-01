@@ -1,0 +1,99 @@
+/* ---------- custom cursor (fine pointers only) ---------- */
+.cursor {
+  display: none;
+}
+
+.has-cursor .cursor {
+  display: block;
+}
+
+/* the native arrow is hidden everywhere except where you type */
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
+}
+
+.has-cursor input,
+.has-cursor textarea,
+.has-cursor [contenteditable='true'] {
+  cursor: text !important;
+}
+
+/* the outer layer is moved by GSAP; the inner span does the scaling, so the two never fight */
+.cursor__dot,
+.cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+
+.cursor-visible .cursor__dot,
+.cursor-visible .cursor__ring {
+  opacity: 1;
+}
+
+.cursor__dot span,
+.cursor__ring span {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor__dot span {
+  width: 7px;
+  height: 7px;
+  background: var(--orange);
+  box-shadow: 0 0 12px rgba(247, 148, 32, 0.8);
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease;
+}
+
+.cursor__ring span {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(247, 148, 32, 0.55);
+  background: rgba(247, 148, 32, 0);
+  transition:
+    width 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease,
+    background 0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* over something clickable: the ring swells into a soft ember lens, the dot tucks away */
+.cursor-hover .cursor__ring span {
+  width: 64px;
+  height: 64px;
+  border-color: rgba(255, 196, 107, 0.9);
+  background: rgba(247, 148, 32, 0.12);
+  backdrop-filter: blur(1px);
+}
+
+.cursor-hover .cursor__dot span {
+  transform: translate(-50%, -50%) scale(0.6);
+  background: var(--amber);
+}
+
+.cursor-down .cursor__ring span {
+  width: 30px;
+  height: 30px;
+  background: rgba(247, 148, 32, 0.22);
+}
+
+.cursor-hover.cursor-down .cursor__ring span {
+  width: 52px;
+  height: 52px;
+}
+
+/* in a text field the caret takes over */
+.cursor-text .cursor__dot,
+.cursor-text .cursor__ring {
+  opacity: 0;
+}

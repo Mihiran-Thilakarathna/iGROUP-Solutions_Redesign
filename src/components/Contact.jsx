@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { gsap, useGSAP } from '../gsap.js';
+import { useGSAP, revealEach } from '../gsap.js';
 import { CONTACT } from '../data/content.js';
 import SectionHeading from './SectionHeading.jsx';
 import Icon from './Icons.jsx';
@@ -17,14 +17,8 @@ export default function Contact() {
 
   useGSAP(
     () => {
-      gsap.from('.contact__form, .contact__card', {
-        y: 60,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '.contact__grid', start: 'top 80%' }
-      });
+      // the card stacks under the form on phones, so each gets its own trigger
+      revealEach('.contact__form, .contact__card', { y: 60, opacity: 0 }, { stagger: 0.15, duration: 1 });
     },
     { scope: root }
   );

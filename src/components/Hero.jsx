@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { gsap, SplitText, useGSAP, prefersReducedMotion, scrollToSection, introReady } from '../gsap.js';
+import { gsap, SplitText, useGSAP, prefersReducedMotion, scrollToSection } from '../gsap.js';
 import { HERO } from '../data/content.js';
 import Icon from './Icons.jsx';
 import MetallicPaint from './reactbits/MetallicPaint.jsx';
@@ -19,7 +19,7 @@ const supportsWebGL2 = () => {
 export default function Hero() {
   const root = useRef(null);
   const [metal] = useState(supportsWebGL2);
-  // mounted at handover so the metal "pour" intro plays as the loader wipes away
+  // mounted as the intro starts so the metal "pour" plays with the rest of the hero
   const [lit, setLit] = useState(false);
 
   useGSAP(
@@ -28,29 +28,37 @@ export default function Hero() {
       const nav = document.querySelector('.nav');
       const headline = SplitText.create(q('.hero__headline'), { type: 'words', mask: 'words' });
 
-      // resting state while the preloader is up — applied before first paint
-      gsap.set(q('.hero__wordmark'), { opacity: 0, y: 30, scale: 0.97 });
-      gsap.set(q('.hero__ring'), { opacity: 0, scale: 0.9 });
+      // resting state before the intro — applied before first paint
+      gsap.set(q('.hero__wordmark'), { opacity: 0, y: 40, scale: 0.96, filter: 'blur(18px)' });
+      gsap.set(q('.hero__ring'), { opacity: 0, scale: 0.86 });
       gsap.set(q('.hero__solutions, .hero__grid'), { opacity: 0 });
-      gsap.set(headline.words, { yPercent: 115 });
-      gsap.set(q('.hero__reveal, .hero__scroll'), { y: 24, opacity: 0 });
-      gsap.set(nav, { y: -30, opacity: 0 });
+      gsap.set(headline.words, { yPercent: 120, rotate: 4 });
+      gsap.set(q('.hero__reveal, .hero__scroll'), { y: 28, opacity: 0, filter: 'blur(8px)' });
+      gsap.set(nav, { y: -40, opacity: 0 });
 
       const tl = gsap
         .timeline({ paused: true, defaults: { ease: 'power3.out' } })
-        .to(q('.hero__ring'), { opacity: 1, scale: 1, duration: 2.4, ease: 'power2.out' }, 0)
-        .to(q('.hero__wordmark'), { opacity: 1, y: 0, scale: 1, duration: 1.6, ease: 'expo.out' }, 0.1)
+        .to(q('.hero__grid'), { opacity: 1, duration: 2.4, ease: 'power1.inOut' }, 0)
+        .to(q('.hero__ring'), { opacity: 1, scale: 1, duration: 2.6, ease: 'expo.out' }, 0.1)
+        .to(
+          q('.hero__wordmark'),
+          { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.8, ease: 'expo.out', clearProps: 'filter' },
+          0.25
+        )
         .fromTo(
           q('.hero__solutions'),
-          { opacity: 0, letterSpacing: '1.1em' },
-          { opacity: 1, letterSpacing: '0.62em', duration: 1.6, ease: 'expo.out' },
-          0.6
+          { opacity: 0, letterSpacing: '1.2em' },
+          { opacity: 1, letterSpacing: '0.62em', duration: 1.8, ease: 'expo.out' },
+          0.7
         )
-        .to(q('.hero__grid'), { opacity: 1, duration: 2 }, 0.4)
-        .to(nav, { y: 0, opacity: 1, duration: 1 }, 0.8)
-        .to(headline.words, { yPercent: 0, duration: 1, stagger: 0.05, ease: 'power4.out' }, 0.9)
-        .to(q('.hero__reveal'), { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 }, 1.2)
-        .to(q('.hero__scroll'), { y: 0, opacity: 1, duration: 0.8 }, 1.6)
+        .to(nav, { y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }, 0.9)
+        .to(headline.words, { yPercent: 0, rotate: 0, duration: 1.1, stagger: 0.045, ease: 'expo.out' }, 1)
+        .to(
+          q('.hero__reveal'),
+          { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.1, stagger: 0.09, ease: 'expo.out', clearProps: 'filter' },
+          1.25
+        )
+        .to(q('.hero__scroll'), { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.9, clearProps: 'filter' }, 1.7)
         // once lit, the ring breathes slowly instead of chasing the cursor
         .add(() => {
           if (prefersReducedMotion()) return;
@@ -64,7 +72,9 @@ export default function Hero() {
           });
         });
 
-      introReady.then(() => {
+      // start as soon as the display font is in, so the wordmark never swaps face mid-intro
+      const fontsReady = document.fonts?.ready ?? Promise.resolve();
+      Promise.race([fontsReady, new Promise(r => setTimeout(r, 1200))]).then(() => {
         setLit(true);
         prefersReducedMotion() ? tl.progress(1) : tl.play();
       });

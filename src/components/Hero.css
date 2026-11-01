@@ -234,8 +234,28 @@
 }
 
 @media (max-width: 640px) {
+  /* phones: the wordmark leads from the top third, big enough to read as the brand,
+     with the copy close beneath it instead of the whole stack floating mid-screen */
   .hero {
-    --ring-size: 150vw;
+    --title-size: 17.5vw;
+    --ring-size: 135vw;
+    min-height: auto;
+    justify-content: flex-start;
+    padding-top: max(118px, 15svh);
+    padding-bottom: 72px;
+  }
+
+  .hero__metal {
+    width: 96vw;
+  }
+
+  .hero__solutions {
+    margin-top: 0.34em;
+    font-size: 11px;
+  }
+
+  .hero__content {
+    margin-top: 44px;
   }
 
   .hero__actions .btn {

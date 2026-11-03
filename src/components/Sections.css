@@ -198,10 +198,13 @@
 }
 
 .about__year {
+  /* centred by layout, not `translate` — GSAP folds that into its own transform for the drift */
   position: absolute;
   top: 50%;
-  left: 50%;
-  translate: -50% -50%;
+  left: 0;
+  right: 0;
+  margin-top: -0.5em;
+  text-align: center;
   font-family: var(--font-display);
   font-weight: 800;
   font-size: clamp(160px, 34vw, 520px);
@@ -231,6 +234,11 @@
   font-size: clamp(26px, 3.4vw, 46px) !important;
   line-height: 1.2 !important;
   letter-spacing: -0.02em;
+}
+
+/* phone-only: the founding year as a captioned line under the lead */
+.about__since {
+  display: none;
 }
 
 .about__aside .lede {
@@ -987,6 +995,41 @@
   .client-logo {
     height: 72px;
     padding: 12px 18px;
+  }
+
+  /* phones: the background year can't fit, so it becomes a captioned line under the lead */
+  .about__year {
+    display: none;
+  }
+
+  .about__since {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .about__since-label {
+    padding-bottom: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.7;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .about__since-year {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: min(20vw, 120px);
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(247, 148, 32, 0.6);
   }
 
   .contact__submit {

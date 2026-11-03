@@ -16,6 +16,13 @@ export default function About() {
         { xPercent: -10, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true } }
       );
       revealEach('.about__aside > *', { y: 40, opacity: 0 }, { stagger: 0.12 });
+      // phones: the year is a captioned line under the lead; it draws in left to right
+      gsap.from('.about__since-year', {
+        clipPath: 'inset(0 100% 0 0)',
+        duration: 1.4,
+        ease: 'expo.out',
+        scrollTrigger: { trigger: '.about__since', start: 'top 90%' }
+      });
     },
     { scope: root }
   );
@@ -39,6 +46,14 @@ export default function About() {
           >
             {ABOUT.lead}
           </ScrollReveal>
+          <div className="about__since" aria-hidden="true">
+            <span className="about__since-label">
+              Delivering
+              <br />
+              since
+            </span>
+            <span className="about__since-year">2015</span>
+          </div>
         </div>
         <div className="about__aside">
           <p className="lede">{ABOUT.body}</p>

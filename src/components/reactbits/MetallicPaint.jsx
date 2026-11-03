@@ -5,7 +5,9 @@ import './MetallicPaint.css';
 
 const WORKING_SIZE = 512;
 const MAX_SIDE = 2048;
-const MAX_PIXELS = 2560 * 1600 * 2;
+// the shader runs every frame; past ~0.8MP it starves the compositor and the
+// custom cursor visibly lags over the hero
+const MAX_PIXELS = 800_000;
 
 const VERTEX = `#version 300 es
 layout(location = 0) in vec2 a_position;
@@ -561,7 +563,7 @@ export default function MetallicPaint({
       const s = settingsRef.current;
       const rect = container.getBoundingClientRect();
       const base = s.dpr ?? Math.min(window.devicePixelRatio || 1, 2);
-      let ratio = Math.max(base, 2);
+      let ratio = base;
       const pixels = rect.width * rect.height * ratio * ratio;
       if (pixels > MAX_PIXELS) ratio *= Math.sqrt(MAX_PIXELS / pixels);
       const width = Math.max(1, Math.round(rect.width * ratio));

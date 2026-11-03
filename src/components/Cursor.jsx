@@ -16,8 +16,9 @@ export default function Cursor() {
     root.classList.add('has-cursor');
 
     const lag = prefersReducedMotion() ? 0.01 : 0.18;
-    const dotX = gsap.quickTo(dot.current, 'x', { duration: 0.08, ease: 'power3' });
-    const dotY = gsap.quickTo(dot.current, 'y', { duration: 0.08, ease: 'power3' });
+    // the dot is the pointer itself, so it is placed directly — no tween to fall behind
+    const dotX = gsap.quickSetter(dot.current, 'x', 'px');
+    const dotY = gsap.quickSetter(dot.current, 'y', 'px');
     const ringX = gsap.quickTo(ring.current, 'x', { duration: lag * 3, ease: 'power3' });
     const ringY = gsap.quickTo(ring.current, 'y', { duration: lag * 3, ease: 'power3' });
     let shown = false;

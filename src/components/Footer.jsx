@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from 'react';
-import { gsap, useGSAP, scrollToSection, revealEach } from '../gsap.js';
+import { gsap, useGSAP, scrollToSection, revealEach, isTouch } from '../gsap.js';
+import { trackRowHover } from '../rowHover.js';
 import { NAV, CONTACT, SERVICES, CAREERS } from '../data/content.js';
 import SocialDock from './SocialDock.jsx';
 import Icon from './Icons.jsx';
@@ -54,6 +55,12 @@ export default function Footer() {
         scrollTrigger: { trigger: '.footer__cta', start: 'top 80%' }
       });
       revealEach('.footer__col', { y: 30, opacity: 0 }, { stagger: 0.08 });
+
+      // Lenis keeps the footer gliding after the wheel stops, and the browser won't re-run
+      // :hover until the mouse moves again — so links are lit by hit-testing every frame
+      if (isTouch()) return undefined;
+      const links = gsap.utils.toArray('.footer__col:not(.footer__brand) a');
+      return trackRowHover(links, undefined, root.current.querySelector('.footer__grid'));
     },
     { scope: root }
   );

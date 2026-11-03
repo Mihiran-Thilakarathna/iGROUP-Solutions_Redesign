@@ -803,35 +803,51 @@
   font-size: 15px;
 }
 
-.footer__col a {
+/* hover: the link slides right as an orange dash draws in ahead of it. Every part animates
+   one way and back along the same path (no origin flip), so sweeping the pointer quickly
+   across the list never makes a half-finished line jump to the other end */
+.footer__col:not(.footer__brand) a {
   position: relative;
-  transition: color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.footer__col a::after {
+.footer__col:not(.footer__brand) a::before {
   content: '';
   position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 1px;
+  top: 50%;
+  left: -16px;
+  width: 10px;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 2px;
   background: var(--orange);
   transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-}
-
-.footer__col a:hover {
-  color: var(--text);
-}
-
-.footer__col a:hover::after {
-  transform: scaleX(1);
   transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.footer__brand a::after {
-  display: none;
+/* the slide moves the link out from under a pointer resting on its left edge; this strip
+   trails behind it to cover where it was, so hover doesn't drop and flicker */
+.footer__col:not(.footer__brand) a::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -16px;
+  width: 16px;
+}
+
+.footer__col:not(.footer__brand) a.is-lit,
+.footer__col:not(.footer__brand) a:focus-visible {
+  color: var(--text);
+  transform: translateX(16px);
+}
+
+.footer__col:not(.footer__brand) a.is-lit::before,
+.footer__col:not(.footer__brand) a:focus-visible::before {
+  transform: scaleX(1);
 }
 
 .footer__head {

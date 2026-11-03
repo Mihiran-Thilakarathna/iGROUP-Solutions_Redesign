@@ -1,7 +1,8 @@
 import { gsap } from './gsap.js';
 
 // Mouse events alone miss rows moving beneath a stationary pointer during scroll/reveals.
-export function trackRowHover(rows, onChange = () => {}) {
+// `area` is what must be on screen for hit-testing to run; it defaults to the rows' parent.
+export function trackRowHover(rows, onChange = () => {}, area = rows[0]?.parentElement) {
   if (!rows.length) return () => {};
   const active = new Map(rows.map(row => [row, false]));
   let pointer = null;
@@ -32,7 +33,7 @@ export function trackRowHover(rows, onChange = () => {}) {
     visible = entry.isIntersecting;
     sync();
   });
-  observer.observe(rows[0].parentElement);
+  observer.observe(area);
 
   window.addEventListener('pointermove', onMove, { passive: true });
   // A wheel gesture can be the first input after load, without any pointer movement.

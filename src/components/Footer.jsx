@@ -90,7 +90,8 @@ export default function Footer() {
 
       <div className="container footer__grid">
         <div className="footer__col footer__brand">
-          <img className="footer__logo" src="logo-dark.svg" alt="iGroup Solutions" width="400" height="180" />
+          <img className="footer__logo logo-for-dark" src="logo-dark.svg" alt="iGroup Solutions" width="400" height="180" />
+          <img className="footer__logo logo-for-light" src="logo-light.svg" alt="iGroup Solutions" width="400" height="180" />
           <p className="footer__tag">We Build Your Digital Future — delivering since 2015.</p>
           <SocialDock className="social-dock--sm" />
         </div>

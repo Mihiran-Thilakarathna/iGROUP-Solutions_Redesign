@@ -19,7 +19,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(60% 50% at 50% 30%, rgba(5, 5, 5, 0.6), transparent 70%);
+  background: radial-gradient(60% 50% at 50% 30%, var(--vignette), transparent 70%);
   z-index: -1;
   pointer-events: none;
 }
@@ -125,6 +125,46 @@
   will-change: transform;
 }
 
+/* light: the same crisp rim of light as dark mode — a defined orange ring with a tight glow,
+   instead of the dark theme's deep ember browns, which turn muddy on paper */
+:root[data-theme='light'] .ring--glow {
+  opacity: 0.8;
+  background: radial-gradient(
+    circle closest-side,
+    transparent 68%,
+    rgba(247, 148, 32, 0.08) 73%,
+    rgba(247, 148, 32, 0.22) 77.5%,
+    rgba(240, 120, 20, 0.5) 81%,
+    rgba(247, 148, 32, 0.22) 85.5%,
+    rgba(247, 148, 32, 0.07) 90%,
+    transparent 95%
+  );
+}
+
+:root[data-theme='light'] .ring--core {
+  opacity: 1;
+  background: radial-gradient(
+    circle closest-side,
+    transparent 77%,
+    rgba(247, 148, 32, 0.18) 80%,
+    #ee7f1a 82.7%,
+    rgba(238, 127, 26, 0.3) 84.3%,
+    transparent 86%
+  );
+}
+
+:root[data-theme='light'] .ring--sweep {
+  opacity: 1;
+  background: radial-gradient(
+    circle closest-side,
+    transparent 80.5%,
+    rgba(255, 150, 30, 0.55) 81.8%,
+    #ff8c1a 82.75%,
+    rgba(255, 150, 30, 0.55) 83.7%,
+    transparent 85%
+  );
+}
+
 @keyframes ring-spin {
   to {
     transform: rotate(360deg);
@@ -141,8 +181,8 @@
   letter-spacing: 0.14em;
   padding-left: 0.14em; /* balances the trailing tracking */
   white-space: nowrap;
-  color: #fff;
-  text-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+  color: var(--text);
+  text-shadow: 0 0 60px var(--vignette);
 }
 
 /* metallic wordmark — sized to the same box the plain title would take */
@@ -169,7 +209,7 @@
   font-size: max(11px, 0.11em);
   font-weight: 500;
   letter-spacing: 0.62em;
-  color: var(--orange);
+  color: var(--accent);
 }
 
 /* ---------- copy ---------- */
@@ -194,6 +234,10 @@
   margin: 12px 0 0;
   font-weight: 600;
   color: var(--amber);
+}
+
+:root[data-theme='light'] .hero__tagline {
+  color: var(--accent);
 }
 
 .hero__sub {

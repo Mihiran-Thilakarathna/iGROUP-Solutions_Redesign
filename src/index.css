@@ -12,6 +12,17 @@
   --text: #f5f5f4;
   --muted: #a1a1aa;
   --dim: #71717a;
+  /* orange for text and small marks — the raw brand orange is too light to read on paper */
+  --accent: var(--orange);
+
+  /* surfaces that change with the theme */
+  --solid-bg: #fff; /* the high-contrast button */
+  --solid-fg: #000;
+  --field-bg: rgba(255, 255, 255, 0.02);
+  --nav-bg: rgba(12, 12, 14, 0.35);
+  --nav-bg-scrolled: rgba(12, 12, 14, 0.72);
+  --sheet-bg: rgba(12, 12, 14, 0.94);
+  --vignette: rgba(5, 5, 5, 0.6);
 
   /* drifting background light pools */
   --glow-1: rgba(247, 148, 32, 0.16);
@@ -29,6 +40,94 @@
   --gutter: clamp(16px, 4vw, 40px);
 
   color-scheme: dark;
+}
+
+/* light: a deep warm cream instead of stark white, so the ember palette still feels at home */
+:root[data-theme='light'] {
+  --bg: #ece3d4;
+  --bg-raised: #fffcf6;
+  --band: rgba(250, 245, 236, 0.7); /* lighter cream bands that give the page its rhythm */
+  --band-solid: #f6f0e6; /* how a band reads on the page, for spots where the backdrop is tinted */
+  --line: rgba(46, 30, 14, 0.12);
+  --line-strong: rgba(46, 30, 14, 0.22);
+  --text: #1b140d;
+  --muted: #554a3f;
+  --dim: #7a6e61;
+  --accent: #a85200;
+  --accent-display: #d4680a; /* big display type, where a richer orange still reads */
+
+  --solid-bg: #1b140d;
+  --solid-fg: #fff;
+  --field-bg: #fff;
+  --nav-bg: rgba(255, 253, 249, 0.6);
+  --nav-bg-scrolled: rgba(255, 253, 249, 0.86);
+  --sheet-bg: rgba(255, 253, 249, 0.97);
+  --vignette: rgba(255, 253, 249, 0.75); /* brightens the hero's centre, as dark mode deepens it */
+
+  /* the same drifting ember pools as dark mode, as apricot light on paper */
+  --glow-1: rgba(247, 148, 32, 0.2);
+  --glow-2: rgba(255, 140, 40, 0.11);
+  --glow-3: rgba(232, 110, 20, 0.13);
+  --glow-4: rgba(255, 255, 255, 0.6);
+
+  color-scheme: light;
+}
+
+/* each logo file is drawn for one background; show the one that fits */
+.logo-for-light,
+:root[data-theme='light'] .logo-for-dark {
+  display: none;
+}
+
+:root[data-theme='light'] .logo-for-light {
+  display: block;
+}
+
+/* theme switch: the new theme washes out from the toggle as a soft-edged circle — a radial mask
+   whose radius (--reveal) is animated from JS (src/theme.js). The default cross-fade is switched
+   off and the new snapshot sits on top. --reveal-x/y/feather are set on <html> for the switch. */
+@property --reveal {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--reveal-x, 100%) var(--reveal-y, 0%),
+    #000 calc(var(--reveal) - var(--reveal-feather, 200px)),
+    transparent var(--reveal)
+  );
+  mask-image: radial-gradient(
+    circle at var(--reveal-x, 100%) var(--reveal-y, 0%),
+    #000 calc(var(--reveal) - var(--reveal-feather, 200px)),
+    transparent var(--reveal)
+  );
+}
+
+/* browsers without View Transitions: every colour eases across instead of snapping */
+:root.theme-fading,
+:root.theme-fading *,
+:root.theme-fading *::before,
+:root.theme-fading *::after {
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease,
+    border-color 0.5s ease,
+    box-shadow 0.5s ease,
+    fill 0.5s ease,
+    stroke 0.5s ease !important;
 }
 
 *,
@@ -96,19 +195,31 @@ button {
   outline: none;
 }
 
-/* scrollbar: slim dark track with an ember thumb */
+/* scrollbar: slim track in the page colour with an ember thumb. It follows its own
+   data-scrollbar attribute, not data-theme — the scrollbar isn't part of the theme-switch
+   snapshot, so src/theme.js flips it only once the reveal circle has swept past it */
+:root {
+  --sb-track: #050505;
+  --sb-line: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-scrollbar='light'] {
+  --sb-track: #ece3d4;
+  --sb-line: rgba(46, 30, 14, 0.12);
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg);
-  border-left: 1px solid var(--line);
+  background: var(--sb-track);
+  border-left: 1px solid var(--sb-line);
 }
 
 ::-webkit-scrollbar-thumb {
-  border: 2px solid var(--bg);
+  border: 2px solid var(--sb-track);
   border-radius: 999px;
   background: linear-gradient(to bottom, var(--amber), var(--orange) 50%, #b9470a);
 }
@@ -124,7 +235,7 @@ button {
 @supports not selector(::-webkit-scrollbar) {
   html {
     scrollbar-width: thin;
-    scrollbar-color: var(--orange) var(--bg);
+    scrollbar-color: var(--orange) var(--sb-track);
   }
 }
 
@@ -192,7 +303,7 @@ button {
 
 .section-title .accent,
 .accent {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .lede {
@@ -245,13 +356,14 @@ button {
 }
 
 .btn--light {
-  background: #fff;
-  color: #000;
+  background: var(--solid-bg);
+  color: var(--solid-fg);
 }
 
 .btn--light:hover,
 .btn--light:active {
   background: var(--amber);
+  color: #000;
   box-shadow: 0 12px 30px -12px rgba(247, 148, 32, 0.7);
 }
 

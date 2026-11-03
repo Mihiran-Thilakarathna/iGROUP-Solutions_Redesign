@@ -104,7 +104,7 @@
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.1em;
-  color: var(--orange);
+  color: var(--accent);
   text-shadow: 0 0 16px rgba(247, 148, 32, 0.45);
   transition: color 0.35s, text-shadow 0.35s;
 }
@@ -210,7 +210,7 @@
   font-size: clamp(160px, 34vw, 520px);
   line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(247, 148, 32, 0.12);
+  -webkit-text-stroke: 1px rgba(247, 148, 32, var(--year-stroke, 0.12));
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
@@ -342,7 +342,7 @@
   border-radius: 999px;
   vertical-align: 0.06em;
   font-size: 0.82em;
-  color: var(--orange);
+  color: var(--accent);
   background: linear-gradient(120deg, rgba(247, 148, 32, 0.16), rgba(140, 42, 10, 0.18));
   box-shadow: inset 0 0 0 1px rgba(247, 148, 32, 0.45), 0 10px 30px -14px rgba(247, 148, 32, 0.6);
 }
@@ -378,7 +378,7 @@
   font-size: clamp(56px, 12vw, 180px) !important;
   line-height: 0.95 !important;
   letter-spacing: -0.03em;
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .careers__intro {
@@ -449,7 +449,7 @@
 .role__num {
   font-family: var(--font-display);
   font-size: 13px;
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .role__area {
@@ -461,7 +461,7 @@
 }
 
 .role.is-lit .role__area {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .role__titles {
@@ -485,7 +485,7 @@
 }
 
 .role.is-lit .role__go {
-  color: var(--orange);
+  color: var(--accent);
   transform: translate(4px, -4px);
 }
 
@@ -532,7 +532,7 @@
   padding: 26px 16px 10px;
   border-radius: 14px;
   border: 1px solid var(--line-strong);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--field-bg);
   outline: none;
   resize: vertical;
   transition:
@@ -564,7 +564,7 @@
 .field textarea:focus + span,
 .field textarea:not(:placeholder-shown) + span {
   transform: translateY(-11px) scale(0.78);
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .contact__submit {
@@ -597,7 +597,7 @@
 }
 
 .contact__line:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .contact__icon {
@@ -607,7 +607,7 @@
   width: 46px;
   height: 46px;
   border-radius: 14px;
-  color: var(--orange);
+  color: var(--accent);
   background: rgba(247, 148, 32, 0.1);
 }
 
@@ -777,7 +777,7 @@
 }
 
 .footer__cta-title:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 .footer__cta-title:hover .footer__cta-arrow {
@@ -910,7 +910,7 @@
 }
 
 .footer__top:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 
 /* full "iGROUP" wordmark, sized in JS to span the container exactly */
@@ -936,6 +936,103 @@
   background: linear-gradient(to bottom, rgba(247, 148, 32, 0.55) 0%, rgba(185, 71, 10, 0.22) 55%, rgba(5, 5, 5, 0) 100%);
   -webkit-background-clip: text;
   background-clip: text;
+}
+
+/* ---------- light theme ---------- */
+:root[data-theme='light'] .about {
+  --year-stroke: 0.32;
+  --since-stroke: #d9700a;
+}
+
+/* logos print in ink rather than white; the hover tile lifts off the paper */
+:root[data-theme='light'] .client-logo img {
+  filter: grayscale(1) brightness(0);
+  opacity: 0.55;
+}
+
+:root[data-theme='light'] .client-logo::before {
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 18px 40px -18px rgba(247, 148, 32, 0.45);
+}
+
+:root[data-theme='light'] .statement__pill {
+  background: linear-gradient(120deg, rgba(247, 148, 32, 0.14), rgba(255, 196, 107, 0.2));
+}
+
+:root[data-theme='light'] .contact__form,
+:root[data-theme='light'] .contact__card {
+  box-shadow: 0 30px 60px -40px rgba(60, 40, 20, 0.25);
+}
+
+:root[data-theme='light'] .contact__card {
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(247, 148, 32, 0.14), transparent 60%),
+    var(--bg-raised);
+}
+
+:root[data-theme='light'] .social-dock {
+  background: #fff;
+}
+
+/* ivory bands between the paper sections */
+:root[data-theme='light'] .stats,
+:root[data-theme='light'] .clients {
+  background: var(--band);
+}
+
+:root[data-theme='light'] .clients {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+:root[data-theme='light'] .careers__kicker-text {
+  color: var(--accent-display);
+}
+
+/* the footer uses the page's own two creams: the deep cream base here, and the lighter band
+   behind the call to action below. It keeps the dark theme's idea — a soft warm glow at the
+   bottom edge and an orange "iGROUP" fading into the page */
+:root[data-theme='light'] .footer {
+  background: var(--bg);
+}
+
+:root[data-theme='light'] .footer__glow {
+  background: radial-gradient(closest-side, rgba(247, 148, 32, 0.16), rgba(255, 196, 107, 0.08) 55%, transparent);
+}
+
+:root[data-theme='light'] .footer__letter {
+  background-image: linear-gradient(to bottom, rgba(232, 110, 20, 0.75) 0%, rgba(247, 148, 32, 0.28) 55%, rgba(236, 227, 212, 0) 100%);
+}
+
+/* the "Have a project in mind?" call to action sits on a full-width cream band, matching the
+   Stats and Clients bands; the links and everything below keep the footer's peach base.
+   The band reaches up through the footer's top padding and out past the container to the
+   screen edges (the footer clips the overflow), and stays under the text (z-index -1 within
+   the footer's isolated stacking context) */
+:root[data-theme='light'] .footer__cta {
+  position: relative;
+}
+
+:root[data-theme='light'] .footer__cta::before {
+  content: '';
+  position: absolute;
+  top: -400px; /* overshoots the footer's top padding; the footer's overflow clips it at its edge */
+  bottom: 0;
+  left: 50%;
+  z-index: -1;
+  width: 100vw;
+  margin-left: -50vw;
+  background: var(--band-solid);
+}
+
+:root[data-theme='light'] .footer .social-dock {
+  background: var(--bg-raised);
+}
+
+/* service numbers keep their ember glow, softened for paper */
+:root[data-theme='light'] .svc-row:not(.is-lit) .svc-row__num {
+  text-shadow: 0 0 14px rgba(247, 148, 32, 0.35);
 }
 
 /* ---------- responsive ---------- */
@@ -1045,7 +1142,7 @@
     line-height: 0.82;
     letter-spacing: -0.02em;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(247, 148, 32, 0.6);
+    -webkit-text-stroke: 1px var(--since-stroke, rgba(247, 148, 32, 0.6));
   }
 
   .contact__submit {

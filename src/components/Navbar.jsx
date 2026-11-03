@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger, useGSAP, scrollToSection } from '../gsap.js';
 import { NAV } from '../data/content.js';
 import Icon from './Icons.jsx';
+import ThemeToggle from './ThemeToggle.jsx';
 import './Navbar.css';
 
 export default function Navbar() {
@@ -58,7 +59,8 @@ export default function Navbar() {
     <header ref={root} className={`nav ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="nav__bar">
         <a href="#home" className="nav__logo" onClick={go('home')} aria-label="iGroup Solutions — home">
-          <img src="logo-dark.svg" alt="iGroup Solutions" width="400" height="180" />
+          <img className="logo-for-dark" src="logo-dark.svg" alt="iGroup Solutions" width="400" height="180" />
+          <img className="logo-for-light" src="logo-light.svg" alt="iGroup Solutions" width="400" height="180" />
         </a>
 
         <nav className="nav__links" aria-label="Primary">
@@ -78,19 +80,23 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <a href="#contact" className="nav__cta" onClick={go('contact')}>
-          Let&apos;s Talk
-          <Icon name="arrowUpRight" size={16} />
-        </a>
+        <div className="nav__end">
+          <ThemeToggle />
 
-        <button
-          className="nav__burger"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          onClick={() => setOpen(o => !o)}
-        >
-          <Icon name={open ? 'close' : 'menu'} size={22} />
-        </button>
+          <a href="#contact" className="nav__cta" onClick={go('contact')}>
+            Let&apos;s Talk
+            <Icon name="arrowUpRight" size={16} />
+          </a>
+
+          <button
+            className="nav__burger"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen(o => !o)}
+          >
+            <Icon name={open ? 'close' : 'menu'} size={22} />
+          </button>
+        </div>
       </div>
 
       {open && (

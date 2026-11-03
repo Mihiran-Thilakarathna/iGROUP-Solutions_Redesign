@@ -3,6 +3,7 @@ import { gsap, SplitText, useGSAP, prefersReducedMotion, scrollToSection } from 
 import { HERO } from '../data/content.js';
 import Icon from './Icons.jsx';
 import MetallicPaint from './reactbits/MetallicPaint.jsx';
+import { useTheme } from '../theme.js';
 import './Hero.css';
 
 // WebGL2 powers the metallic wordmark; without it the plain title is shown instead
@@ -21,6 +22,7 @@ export default function Hero() {
   const [metal] = useState(supportsWebGL2);
   // mounted as the intro starts so the metal "pour" plays with the rest of the hero
   const [lit, setLit] = useState(false);
+  const light = useTheme() === 'light';
 
   useGSAP(
     () => {
@@ -118,7 +120,8 @@ export default function Hero() {
                 fontFamily="Unbounded"
                 fontWeight={700}
                 letterSpacing={0.14}
-                color="#f7c48a"
+                color={light ? '#c8701a' : '#f7c48a'}
+                lightMode={light}
                 scale={0.96}
                 density={2}
                 softness={0.12}

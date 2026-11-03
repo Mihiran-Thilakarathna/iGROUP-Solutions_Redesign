@@ -4,9 +4,11 @@ import { ABOUT } from '../data/content.js';
 import ScrollReveal from './reactbits/ScrollReveal.jsx';
 import StarBorder from './reactbits/StarBorder.jsx';
 import Icon from './Icons.jsx';
+import { useTheme } from '../theme.js';
 
 export default function About() {
   const root = useRef(null);
+  const theme = useTheme();
 
   useGSAP(
     () => {
@@ -42,7 +44,7 @@ export default function About() {
             baseRotation={2}
             containerClassName="about__lead"
             textClassName="about__lead-text"
-            highlightColor="#f79420"
+            highlightColor={theme === 'light' ? '#d9700a' : '#f79420'}
           >
             {ABOUT.lead}
           </ScrollReveal>
@@ -62,6 +64,7 @@ export default function About() {
             href="#contact"
             color="#f79420"
             trailColor="#ffc46b"
+            theme={theme}
             radius={999}
             duration={3.5}
             onClick={e => (e.preventDefault(), scrollToSection('contact'))}

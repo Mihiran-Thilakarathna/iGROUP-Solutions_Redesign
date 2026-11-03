@@ -167,8 +167,7 @@
 }
 
 .svc-row.is-lit .svc-row__num,
-.svc-row.is-lit .svc-row__title,
-.svc-row:focus-visible .svc-row__title {
+.svc-row.is-lit .svc-row__title {
   color: #0a0a0a;
   text-shadow: none;
 }
@@ -191,35 +190,6 @@
   border-color: #0a0a0a;
   color: var(--orange);
   transform: translate(3px, -3px);
-}
-
-/* real hover only where there is a mouse, so a tap never leaves a row stuck "on" */
-@media (hover: hover) {
-  .svc-row:hover .svc-row__num,
-  .svc-row:hover .svc-row__title {
-    color: #0a0a0a;
-    text-shadow: none;
-  }
-
-  .svc-row:hover .svc-row__title {
-    transform: translateX(10px);
-  }
-
-  .svc-row:hover .svc-row__text {
-    color: rgba(10, 10, 10, 0.75);
-  }
-
-  .svc-row:hover .svc-row__tags > span {
-    color: #0a0a0a;
-    border-color: rgba(10, 10, 10, 0.35);
-  }
-
-  .svc-row:hover .svc-row__go {
-    background: #0a0a0a;
-    border-color: #0a0a0a;
-    color: var(--orange);
-    transform: translate(3px, -3px);
-  }
 }
 
 /* ---------- about ---------- */
@@ -464,8 +434,7 @@
   transition: padding 0.4s ease;
 }
 
-.role.is-lit,
-.role:hover {
+.role.is-lit {
   padding-left: 12px;
 }
 
@@ -483,8 +452,7 @@
   transition: color 0.3s ease;
 }
 
-.role.is-lit .role__area,
-.role:hover .role__area {
+.role.is-lit .role__area {
   color: var(--orange);
 }
 
@@ -508,8 +476,7 @@
   height: auto;
 }
 
-.role.is-lit .role__go,
-.role:hover .role__go {
+.role.is-lit .role__go {
   color: var(--orange);
   transform: translate(4px, -4px);
 }

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { gsap, ScrollTrigger, useGSAP, isTouch, revealEach } from '../gsap.js';
+import { trackRowHover } from '../rowHover.js';
 import { CAREERS } from '../data/content.js';
 import ScrollFloat from './reactbits/ScrollFloat.jsx';
 import Icon from './Icons.jsx';
@@ -12,9 +13,10 @@ export default function Careers() {
       revealEach('.careers__intro > *, .careers__looking', { y: 30, opacity: 0 }, { duration: 0.8 });
       // each role rises as it reaches the screen — on a phone the list is taller than the viewport
       revealEach('.role', { y: 50, opacity: 0 });
+      const rows = gsap.utils.toArray('.role');
       // touch screens: the role in the middle of the screen takes the hover look
       if (isTouch()) {
-        gsap.utils.toArray('.role').forEach(role =>
+        rows.forEach(role =>
           ScrollTrigger.create({
             trigger: role,
             start: 'top center',
@@ -22,7 +24,9 @@ export default function Careers() {
             onToggle: self => role.classList.toggle('is-lit', self.isActive)
           })
         );
+        return () => rows.forEach(row => row.classList.remove('is-lit'));
       }
+      return trackRowHover(rows);
     },
     { scope: root }
   );

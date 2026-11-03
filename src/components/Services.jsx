@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { gsap, ScrollTrigger, useGSAP, scrollToSection, isTouch } from '../gsap.js';
+import { gsap, ScrollTrigger, useGSAP, scrollToSection, isTouch, prefersReducedMotion } from '../gsap.js';
+import { trackRowHover } from '../rowHover.js';
 import { SERVICES } from '../data/content.js';
 import SectionHeading from './SectionHeading.jsx';
 import Icon from './Icons.jsx';
@@ -23,19 +24,26 @@ export default function Services() {
           }, 0.1);
       });
 
-      // the orange fill slides in from whichever edge the pointer crossed, and out the same way
-      const edge = (e, row) => {
-        const r = row.getBoundingClientRect();
-        return e.clientY - r.top < r.height / 2 ? -101 : 101;
-      };
       const rows = gsap.utils.toArray('.svc-row');
       // hand the resting offset to GSAP as yPercent, otherwise it keeps the CSS value as a pixel y
       gsap.set('.svc-row__fill', { y: 0, yPercent: 101 });
+      const animateFill = contextSafe((row, on, edge) => {
+        const fill = row.querySelector('.svc-row__fill');
+        // Choose an entry edge only while hidden; reverse an unfinished exit in place.
+        if (on && Math.abs(gsap.getProperty(fill, 'yPercent')) >= 100) {
+          gsap.set(fill, { yPercent: edge });
+        }
+        gsap.to(fill, {
+          yPercent: on ? 0 : edge,
+          duration: prefersReducedMotion() ? 0 : 0.4,
+          ease: 'power3.out',
+          overwrite: true
+        });
+      });
 
       // no hover on touch screens: the row crossing the middle of the screen lights up instead
       if (isTouch()) {
         rows.forEach(row => {
-          const fill = row.querySelector('.svc-row__fill');
           ScrollTrigger.create({
             trigger: row,
             start: 'top center',
@@ -44,40 +52,14 @@ export default function Services() {
               row.classList.toggle('is-lit', self.isActive);
               // fill follows the scroll: in from below going down, out through the top, and back again
               const away = self.direction > 0 ? -101 : 101;
-              gsap.fromTo(
-                fill,
-                { yPercent: self.isActive ? -away : gsap.getProperty(fill, 'yPercent') },
-                { yPercent: self.isActive ? 0 : away, duration: 0.6, ease: 'power3.out', overwrite: true }
-              );
+              animateFill(row, self.isActive, self.isActive ? -away : away);
             }
           });
         });
-        return undefined;
+        return () => rows.forEach(row => row.classList.remove('is-lit'));
       }
 
-      const handlers = rows.map(row => {
-        const fill = row.querySelector('.svc-row__fill');
-        let on = false;
-        const enter = contextSafe(e => {
-          on = true;
-          gsap.fromTo(fill, { yPercent: edge(e, row) }, { yPercent: 0, duration: 0.55, ease: 'power3.out', overwrite: true });
-        });
-        const leave = contextSafe(e => {
-          on = false;
-          gsap.to(fill, { yPercent: edge(e, row), duration: 0.5, ease: 'power3.out', overwrite: true });
-        });
-        // smooth scroll can slide a row under a still cursor without a mouseenter
-        const move = e => !on && enter(e);
-        row.addEventListener('mouseenter', enter);
-        row.addEventListener('mousemove', move);
-        row.addEventListener('mouseleave', leave);
-        return () => {
-          row.removeEventListener('mouseenter', enter);
-          row.removeEventListener('mousemove', move);
-          row.removeEventListener('mouseleave', leave);
-        };
-      });
-      return () => handlers.forEach(off => off());
+      return trackRowHover(rows, animateFill);
     },
     { scope: root }
   );

@@ -25,20 +25,7 @@ A modern, motion-led redesign of the iGroup Solutions website — a Sri Lankan s
 
 ---
 
-## Table of contents
-
-- [About the project](#about-the-project)
-- [Original vs. redesign](#original-vs-redesign)
-- [Features](#features)
-- [Tech stack](#tech-stack)
-- [Getting started](#getting-started)
-- [Project structure](#project-structure)
-- [Customisation](#customisation)
-- [Brand assets](#brand-assets)
-- [Browser support](#browser-support)
-- [Acknowledgements](#acknowledgements)
-
-## About the project
+## 📖 About the project
 
 This repository is a ground-up rebuild of [igroupsolutions.lk](https://www.igroupsolutions.lk) as a single-page React application. Every piece of content from the original site — services, about, clients, careers and contact details — is preserved, while the design, motion and interaction are rebuilt around the iGS brand orange.
 
@@ -46,7 +33,7 @@ The site ships with a dark ember theme by default and a warm cream light theme, 
 
 **Page sections:** Hero · Stats · Services · About · Clients · Careers · Contact · Footer
 
-## Original vs. redesign
+## 🔄 Original vs. redesign
 
 | | Original site | Redesign |
 |---|---|---|
@@ -58,9 +45,9 @@ The site ships with a dark ember theme by default and a warm cream light theme, 
 | **Logo** | 200×90 PNG | Vector SVG set, round badge favicon and 2400px PNG exports |
 | **Content** | — | All original copy, roles and contact details carried over |
 
-## Features
+## ✨ Features
 
-### Design and motion
+### 🎨 Design and motion
 
 - **Hero intro** — the ember ring, wordmark, headline and navigation play in as a single GSAP timeline as soon as the display font is ready, with no loading screen.
 - **Liquid-metal wordmark** — the hero `iGROUP` is rendered with React Bits **MetallicPaint** (WebGL2): warm gold on the dark theme, copper on the light theme.
@@ -69,7 +56,7 @@ The site ships with a dark ember theme by default and a warm cream light theme, 
 - **Drifting light pools** — soft radial glows float behind the page with gentle parallax.
 - **Self-fitting footer** — the giant `iGROUP` wordmark measures itself to span the container exactly at any width.
 
-### Interaction
+### 🖱️ Interaction
 
 - **Dark and light themes** — a sun/moon toggle in the navigation switches themes, with the new theme spreading out from the toggle as a soft radial reveal. The choice is saved and applied before first paint, so returning visitors see no flash.
 - **Smooth scrolling** — Lenis drives the scroll, synced to GSAP's ticker so every ScrollTrigger stays in step.
@@ -80,7 +67,7 @@ The site ships with a dark ember theme by default and a warm cream light theme, 
 - **Custom cursor** — a precise dot with a trailing ring that grows over links, for mouse and trackpad users only.
 - **Sliding social dock** — a highlight tile glides beneath the hovered icon.
 
-### Accessibility and quality
+### ♿ Accessibility and quality
 
 - Semantic headings with screen-reader text for the visual-only wordmark
 - Visible keyboard focus styles
@@ -88,7 +75,7 @@ The site ships with a dark ember theme by default and a warm cream light theme, 
 - Responsive layout from desktop down to phone widths
 - Google Analytics tag carried over from the original site
 
-## Tech stack
+## 🛠️ Tech stack
 
 | Layer | Tools |
 |---|---|
@@ -99,14 +86,14 @@ The site ships with a dark ember theme by default and a warm cream light theme, 
 | Typography | Unbounded (display), Space Grotesk (body), Oswald (condensed) — via Google Fonts |
 | Tooling | `@resvg/resvg-js` for logo PNG exports; Python scripts for rebuilding the logo vectors |
 
-## Getting started
+## 🚀 Getting started
 
-### Prerequisites
+### 📋 Prerequisites
 
 - [Node.js](https://nodejs.org) 18 or later
 - npm
 
-### Installation
+### 📦 Installation
 
 ```bash
 git clone https://github.com/Mihiran-Thilakarathna/iGROUP-Solutions_Redesign.git
@@ -117,7 +104,7 @@ npm run dev
 
 The development server runs at <http://localhost:5173>.
 
-### Available scripts
+### ⚙️ Available scripts
 
 | Command | Description |
 |---|---|
@@ -126,7 +113,7 @@ The development server runs at <http://localhost:5173>.
 | `npm run preview` | Serve the production build locally |
 | `npm run logo:png` | Export every SVG in `brand/` as high-resolution PNGs |
 
-## Project structure
+## 🗂️ Project structure
 
 ```text
 .
@@ -163,7 +150,7 @@ The development server runs at <http://localhost:5173>.
 └── vite.config.js
 ```
 
-## Customisation
+## 🎛️ Customisation
 
 | What | Where |
 |---|---|
@@ -172,7 +159,7 @@ The development server runs at <http://localhost:5173>.
 | Contact form destination | `formAction` in [`src/data/content.js`](src/data/content.js) — currently the original site's mail handler |
 | Default theme | The inline script in [`index.html`](index.html) — dark unless the visitor has chosen light |
 
-## Brand assets
+## 🏷️ Brand assets
 
 The original logo was a 200×90 PNG. The `brand/` folder holds a vector rebuild that stays sharp at any size.
 
@@ -203,14 +190,14 @@ npm run logo:png
 
 </details>
 
-## Browser support
+## 🌐 Browser support
 
 Built for current versions of Chrome, Edge, Firefox and Safari. Two features degrade gracefully:
 
 - **WebGL2 unavailable** — the hero shows the `iGROUP` wordmark as plain type instead of liquid metal.
 - **View Transitions unavailable** — the theme switch cross-fades the colours instead of the radial reveal.
 
-## Acknowledgements
+## 🙏 Acknowledgements
 
 - [React Bits](https://reactbits.dev) for the interactive components
 - [GSAP](https://gsap.com) for animation and [Lenis](https://lenis.darkroom.engineering) for smooth scrolling
@@ -220,6 +207,8 @@ Built for current versions of Chrome, Edge, Firefox and Safari. Two features deg
 ---
 
 <div align="center">
+
+Redesigned by **[Mihiran Thilakarathna](https://github.com/Mihiran-Thilakarathna)**
 
 © iGroup Solutions · Software Development in Sri Lanka · All rights reserved.
 

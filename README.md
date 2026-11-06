@@ -159,51 +159,6 @@ The development server runs at <http://localhost:5173>.
 | Contact form destination | `formAction` in [`src/data/content.js`](src/data/content.js) — currently the original site's mail handler |
 | Default theme | The inline script in [`index.html`](index.html) — dark unless the visitor has chosen light |
 
-## 🏷️ Brand assets
-
-The original logo was a 200×90 PNG. The `brand/` folder holds a vector rebuild that stays sharp at any size.
-
-| File | Use |
-|---|---|
-| `logo-light.svg` | Original colours, for light backgrounds (light theme) |
-| `logo-dark.svg` | White wordmark, for dark backgrounds (dark theme) |
-| `logo-badge.svg` | Round iGS badge; the favicon is this badge without its outer ring |
-| `icon.svg` | Square mark for avatars |
-| `*-2400w.png`, `*-512w.png` | High-resolution PNG exports |
-
-**Brand orange:** `#F79420`
-
-<details>
-<summary>Regenerating the logo files</summary>
-
-```bash
-# Logo SVGs from typefaces — needs Python with fontTools; reads fonts from C:/Windows/Fonts
-python scripts/build_logo.py brand
-
-# Round badge and favicon from artwork — needs Python with opencv-python and numpy
-python scripts/build_badge.py _source_assets/logo-igs-badge.png brand/logo-badge.svg
-python scripts/build_badge.py _source_assets/logo-igs-badge.png public/favicon.svg --no-rim
-
-# PNG exports of everything in brand/
-npm run logo:png
-```
-
-</details>
-
-## 🌐 Browser support
-
-Built for current versions of Chrome, Edge, Firefox and Safari. Two features degrade gracefully:
-
-- **WebGL2 unavailable** — the hero shows the `iGROUP` wordmark as plain type instead of liquid metal.
-- **View Transitions unavailable** — the theme switch cross-fades the colours instead of the radial reveal.
-
-## 🙏 Acknowledgements
-
-- [React Bits](https://reactbits.dev) for the interactive components
-- [GSAP](https://gsap.com) for animation and [Lenis](https://lenis.darkroom.engineering) for smooth scrolling
-- [Google Fonts](https://fonts.google.com) for Unbounded, Space Grotesk and Oswald
-- Client logos belong to their respective owners
-
 ---
 
 <div align="center">
